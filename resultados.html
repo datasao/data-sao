@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -9,7 +10,9 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>DATA SAO | Resultados</title>
+    <title>
+        DATA SAO | Panel de Resultados
+    </title>
 
     <link
         rel="stylesheet"
@@ -18,49 +21,107 @@
 
 </head>
 
+
 <body>
+
 
 <header class="header">
 
     <div class="logo">
+
         <img
             src="imagenes/logodata.png"
             alt="DATA SAO"
         >
+
     </div>
 
     <nav>
-        <a href="index.html">Inicio</a>
-        <a href="resultados.html">Resultados</a>
+
+        <a href="index.html">
+            Volver
+        </a>
+
     </nav>
 
 </header>
 
 
+
 <main>
+
 
     <section class="hero">
 
         <p class="categoria">
-            DATA SAO · RESULTADOS
+            DATA SAO · ADMINISTRACIÓN
         </p>
 
         <h1>
-            RESULTADOS DE LA VOTACIÓN
+            RESULTADOS
         </h1>
 
         <p class="descripcion">
-            Talleres vs Ferro · Jugador del Partido
+            Panel privado de la votación.
         </p>
 
     </section>
 
 
-    <section class="resultados-panel">
+
+    <!-- LOGIN -->
+
+    <section
+        id="loginResultados"
+        class="login-resultados"
+    >
+
+        <h2>
+            Acceso privado
+        </h2>
+
+        <p>
+            Ingresá la contraseña de DATA SAO.
+        </p>
+
+
+        <input
+            type="password"
+            id="passwordResultados"
+            placeholder="Contraseña"
+        >
+
+
+        <button
+            onclick="ingresarResultados()"
+        >
+            INGRESAR
+        </button>
+
+
+        <p
+            id="errorLogin"
+            class="error-login"
+        >
+        </p>
+
+    </section>
+
+
+
+    <!-- RESULTADOS -->
+
+    <section
+        id="panelResultados"
+        class="resultados-panel oculto"
+    >
+
 
         <div class="resultados-encabezado">
 
+
             <div>
+
                 <p class="categoria">
                     VOTACIÓN ACTUAL
                 </p>
@@ -68,6 +129,7 @@
                 <h2>
                     Talleres vs Ferro
                 </h2>
+
             </div>
 
 
@@ -83,6 +145,7 @@
 
             </div>
 
+
         </div>
 
 
@@ -97,9 +160,12 @@
 
         </div>
 
+
     </section>
 
+
 </main>
+
 
 
 <footer>
@@ -114,15 +180,15 @@
     </div>
 
     <p>
-        Fútbol regional · Información · Estadísticas
+        Panel privado DATA SAO
     </p>
 
 </footer>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="resultados.js"></script>
+
 
 </body>
 
