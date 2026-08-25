@@ -1,45 +1,34 @@
 /* =========================================================
    DATA SAO
-   JUGADOR DEL PARTIDO
-   Talleres vs Ferro
-   Sistema de votación conectado a Supabase
+   SISTEMA DE VOTACIÓN
 ========================================================= */
 
 
-/* =========================================================
-   CONFIGURACIÓN DEL PARTIDO
-========================================================= */
-
-const PARTIDO_ID = "talleres-ferro-vuelta";
+const PARTIDO_ID =
+    "talleres-ferro-vuelta";
 
 
 /* =========================================================
-   CONFIGURACIÓN SUPABASE
-
-   IMPORTANTE:
-   - Usar solamente Project URL
-   - Usar solamente Publishable Key
-   - NUNCA usar Secret Key
+   SUPABASE
 ========================================================= */
 
 const SUPABASE_URL =
     "https://irbigxtptkzgyogijaap.supabase.co";
+
+
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_Hi-3l1y5mv0A73uqevkzLA_pXyYDbGJ";
 
 
-/* =========================================================
-   CREAR CONEXIÓN CON SUPABASE
-========================================================= */
-
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-);
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 
 
 /* =========================================================
-   JUGADORES Y EQUIPOS
+   JUGADORES
 ========================================================= */
 
 const jugadores = {
@@ -60,7 +49,7 @@ const jugadores = {
 
 
 /* =========================================================
-   COMPROBAR SI ESTE NAVEGADOR YA VOTÓ
+   COMPROBAR SI YA VOTÓ
 ========================================================= */
 
 function yaVoto() {
@@ -73,42 +62,29 @@ function yaVoto() {
 
 
 /* =========================================================
-   VOTAR POR JUGADOR DE LA LISTA
+   VOTAR LISTA
 ========================================================= */
 
 async function votar(nombreJugador) {
 
     if (yaVoto()) {
 
-        mostrarYaVoto();
+        mostrarModalYaVoto();
 
         return;
 
     }
 
 
-    const equipo = jugadores[nombreJugador];
+    const equipo =
+        jugadores[nombreJugador];
 
 
     if (!equipo) {
 
-        alert(
+        mostrarModalError(
             "No pudimos identificar al jugador."
         );
-
-        return;
-
-    }
-
-
-    const confirmar = confirm(
-        "¿Confirmás tu voto por " +
-        nombreJugador +
-        "?"
-    );
-
-
-    if (!confirmar) {
 
         return;
 
@@ -124,41 +100,33 @@ async function votar(nombreJugador) {
 
 
 /* =========================================================
-   VOTAR POR OTRO JUGADOR
+   OTRO JUGADOR
 ========================================================= */
 
 async function votarOtro() {
 
     if (yaVoto()) {
 
-        mostrarYaVoto();
+        mostrarModalYaVoto();
 
         return;
 
     }
 
 
-    const input = document.getElementById(
-        "otroJugador"
-    );
+    const input =
+        document.getElementById(
+            "otroJugador"
+        );
 
 
-    if (!input) {
-
-        return;
-
-    }
-
-
-    let nombreJugador =
+    let nombre =
         input.value.trim();
 
 
-    /* Evitar nombre vacío */
+    if (nombre.length < 3) {
 
-    if (nombreJugador === "") {
-
-        alert(
+        mostrarModalError(
             "Escribí el nombre del jugador."
         );
 
@@ -169,47 +137,27 @@ async function votarOtro() {
     }
 
 
-    /* Evitar nombres demasiado cortos */
-
-    if (nombreJugador.length < 3) {
-
-        alert(
-            "Escribí un nombre válido."
-        );
-
-        input.focus();
-
-        return;
-
-    }
-
-
-    /* Limpiar espacios dobles */
-
-    nombreJugador =
-        nombreJugador.replace(
+    nombre =
+        nombre.replace(
             /\s+/g,
             " "
         );
 
 
-    /*
-       Si escribieron uno de los jugadores
-       que ya está en la lista, usamos su
-       equipo correspondiente.
-    */
-
-    let equipo = "Otro";
+    let equipo =
+        "Otro";
 
 
-    for (const jugadorLista in jugadores) {
+    for (
+        const jugadorLista in jugadores
+    ) {
 
         if (
             jugadorLista.toLowerCase() ===
-            nombreJugador.toLowerCase()
+            nombre.toLowerCase()
         ) {
 
-            nombreJugador =
+            nombre =
                 jugadorLista;
 
             equipo =
@@ -222,22 +170,8 @@ async function votarOtro() {
     }
 
 
-    const confirmar = confirm(
-        "¿Confirmás tu voto por " +
-        nombreJugador +
-        "?"
-    );
-
-
-    if (!confirmar) {
-
-        return;
-
-    }
-
-
     await registrarVoto(
-        nombreJugador,
+        nombre,
         equipo
     );
 
@@ -245,20 +179,20 @@ async function votarOtro() {
 
 
 /* =========================================================
-   REGISTRAR VOTO EN SUPABASE
+   REGISTRAR EN SUPABASE
 ========================================================= */
 
 async function registrarVoto(
-    nombreJugador,
+    jugador,
     equipo
 ) {
 
-    bloquearBotonesTemporalmente();
+    bloquearBotones();
 
 
     try {
 
-        const { data, error } =
+        const { error } =
             await supabaseClient
                 .from("votos")
                 .insert([
@@ -267,21 +201,17 @@ async function registrarVoto(
                             PARTIDO_ID,
 
                         jugador:
-                            nombreJugador,
+                            jugador,
 
                         equipo:
                             equipo
                     }
-                ])
-                .select();
+                ]);
 
-
-        /* ERROR SUPABASE */
 
         if (error) {
 
             console.error(
-                "Error Supabase:",
                 error
             );
 
@@ -289,9 +219,8 @@ async function registrarVoto(
             desbloquearBotones();
 
 
-            alert(
-                "No pudimos registrar el voto.\n\n" +
-                "Intentá nuevamente."
+            mostrarModalError(
+                "No pudimos registrar el voto. Intentá nuevamente."
             );
 
 
@@ -300,13 +229,9 @@ async function registrarVoto(
         }
 
 
-        /* =================================================
-           VOTO REGISTRADO CORRECTAMENTE
-        ================================================= */
-
         localStorage.setItem(
             "dataSaoVoto_" + PARTIDO_ID,
-            nombreJugador
+            jugador
         );
 
 
@@ -316,25 +241,17 @@ async function registrarVoto(
         );
 
 
-        console.log(
-            "Voto registrado:",
-            data
-        );
-
-
-        mostrarConfirmacion(
-            nombreJugador
-        );
-
-
         desactivarVotacion();
+
+
+        mostrarModalExito(
+            jugador
+        );
 
 
     } catch (error) {
 
-
         console.error(
-            "Error inesperado:",
             error
         );
 
@@ -342,9 +259,8 @@ async function registrarVoto(
         desbloquearBotones();
 
 
-        alert(
-            "Ocurrió un error al conectar con DATA SAO.\n\n" +
-            "Intentá nuevamente."
+        mostrarModalError(
+            "Ocurrió un problema de conexión."
         );
 
     }
@@ -353,116 +269,173 @@ async function registrarVoto(
 
 
 /* =========================================================
-   CONFIRMACIÓN
+   MODAL ÉXITO
 ========================================================= */
 
-function mostrarConfirmacion(
-    nombreJugador
+function mostrarModalExito(
+    jugador
 ) {
 
-    alert(
-        "¡VOTO REGISTRADO!\n\n" +
-        "Elegiste a:\n" +
-        nombreJugador +
-        "\n\nGracias por participar en DATA SAO."
-    );
+    document.getElementById(
+        "modalTitulo"
+    ).textContent =
+        "¡Voto registrado!";
+
+
+    document.getElementById(
+        "modalTexto"
+    ).innerHTML =
+        "Elegiste a <strong>" +
+        escaparHTML(jugador) +
+        "</strong> como Jugador del Partido.";
+
+
+    abrirModal();
 
 }
 
 
 /* =========================================================
-   AVISO SI YA VOTÓ
+   YA VOTÓ
 ========================================================= */
 
-function mostrarYaVoto() {
+function mostrarModalYaVoto() {
 
     const jugador =
         yaVoto();
 
 
-    alert(
-        "Ya participaste de esta votación.\n\n" +
-        "Tu voto fue para:\n" +
-        jugador
+    document.getElementById(
+        "modalTitulo"
+    ).textContent =
+        "Ya participaste";
+
+
+    document.getElementById(
+        "modalTexto"
+    ).innerHTML =
+        "Tu voto fue para <strong>" +
+        escaparHTML(jugador) +
+        "</strong>.";
+
+
+    abrirModal();
+
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+function mostrarModalError(
+    mensaje
+) {
+
+    document.getElementById(
+        "modalTitulo"
+    ).textContent =
+        "Algo salió mal";
+
+
+    document.getElementById(
+        "modalTexto"
+    ).textContent =
+        mensaje;
+
+
+    abrirModal();
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function abrirModal() {
+
+    document.getElementById(
+        "modalVoto"
+    ).classList.add(
+        "activo"
+    );
+
+}
+
+
+function cerrarModal() {
+
+    document.getElementById(
+        "modalVoto"
+    ).classList.remove(
+        "activo"
     );
 
 }
 
 
 /* =========================================================
-   BLOQUEAR BOTONES MIENTRAS SE ENVÍA EL VOTO
+   BOTONES
 ========================================================= */
 
-function bloquearBotonesTemporalmente() {
+function bloquearBotones() {
 
-    const botones =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             "button"
+        )
+        .forEach(
+            boton => {
+
+                boton.disabled =
+                    true;
+
+            }
         );
 
-
-    botones.forEach(
-        function (boton) {
-
-            boton.disabled = true;
-
-        }
-    );
-
 }
 
-
-/* =========================================================
-   DESBLOQUEAR BOTONES SI HUBO ERROR
-========================================================= */
 
 function desbloquearBotones() {
 
-    const botones =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             "button"
+        )
+        .forEach(
+            boton => {
+
+                boton.disabled =
+                    false;
+
+            }
         );
-
-
-    botones.forEach(
-        function (boton) {
-
-            boton.disabled = false;
-
-        }
-    );
 
 }
 
 
 /* =========================================================
-   DESACTIVAR VOTACIÓN DESPUÉS DEL VOTO
+   DESACTIVAR VOTACIÓN
 ========================================================= */
 
 function desactivarVotacion() {
 
-    const botonesJugadores =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             ".jugador button"
+        )
+        .forEach(
+            boton => {
+
+                boton.disabled =
+                    true;
+
+                boton.textContent =
+                    "VOTACIÓN REALIZADA";
+
+            }
         );
-
-
-    botonesJugadores.forEach(
-        function (boton) {
-
-            boton.disabled = true;
-
-            boton.textContent =
-                "VOTACIÓN REALIZADA";
-
-            boton.style.opacity =
-                "0.45";
-
-            boton.style.cursor =
-                "not-allowed";
-
-        }
-    );
 
 
     const botonOtro =
@@ -473,16 +446,11 @@ function desactivarVotacion() {
 
     if (botonOtro) {
 
-        botonOtro.disabled = true;
+        botonOtro.disabled =
+            true;
 
         botonOtro.textContent =
             "VOTACIÓN REALIZADA";
-
-        botonOtro.style.opacity =
-            "0.45";
-
-        botonOtro.style.cursor =
-            "not-allowed";
 
     }
 
@@ -495,7 +463,8 @@ function desactivarVotacion() {
 
     if (input) {
 
-        input.disabled = true;
+        input.disabled =
+            true;
 
     }
 
@@ -503,72 +472,68 @@ function desactivarVotacion() {
 
 
 /* =========================================================
-   COMPROBAR VOTO AL ABRIR LA PÁGINA
+   SEGURIDAD HTML
 ========================================================= */
 
-function comprobarVotoAnterior() {
+function escaparHTML(texto) {
 
-    const voto =
-        yaVoto();
-
-
-    if (voto) {
-
-        desactivarVotacion();
-
-    }
-
-}
-
-
-/* =========================================================
-   PERMITIR ENTER EN "OTRO JUGADOR"
-========================================================= */
-
-function prepararCampoOtroJugador() {
-
-    const input =
-        document.getElementById(
-            "otroJugador"
+    const elemento =
+        document.createElement(
+            "div"
         );
 
 
-    if (!input) {
-
-        return;
-
-    }
+    elemento.textContent =
+        texto;
 
 
-    input.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (event.key === "Enter") {
-
-                event.preventDefault();
-
-                votarOtro();
-
-            }
-
-        }
-    );
+    return elemento.innerHTML;
 
 }
 
 
 /* =========================================================
-   INICIAR DATA SAO
+   INICIAR
 ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        comprobarVotoAnterior();
+        if (yaVoto()) {
 
-        prepararCampoOtroJugador();
+            desactivarVotacion();
+
+        }
+
+
+        const input =
+            document.getElementById(
+                "otroJugador"
+            );
+
+
+        if (input) {
+
+            input.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key ===
+                        "Enter"
+                    ) {
+
+                        event.preventDefault();
+
+                        votarOtro();
+
+                    }
+
+                }
+            );
+
+        }
 
     }
 );
