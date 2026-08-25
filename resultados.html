@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>DATA SAO | Resultados</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        <img
+            src="imagenes/logodata.png"
+            alt="DATA SAO"
+        >
+    </div>
+
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="resultados.html">Resultados</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <p class="categoria">
+            DATA SAO · RESULTADOS
+        </p>
+
+        <h1>
+            RESULTADOS DE LA VOTACIÓN
+        </h1>
+
+        <p class="descripcion">
+            Talleres vs Ferro · Jugador del Partido
+        </p>
+
+    </section>
+
+
+    <section class="resultados-panel">
+
+        <div class="resultados-encabezado">
+
+            <div>
+                <p class="categoria">
+                    VOTACIÓN ACTUAL
+                </p>
+
+                <h2>
+                    Talleres vs Ferro
+                </h2>
+            </div>
+
+
+            <div class="total-votos">
+
+                <span id="totalVotos">
+                    0
+                </span>
+
+                <small>
+                    VOTOS
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="listaResultados"
+            class="lista-resultados"
+        >
+
+            <p class="cargando">
+                Cargando resultados...
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="logo">
+
+        <img
+            src="imagenes/logodata.png"
+            alt="DATA SAO"
+        >
+
+    </div>
+
+    <p>
+        Fútbol regional · Información · Estadísticas
+    </p>
+
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="resultados.js"></script>
+
+</body>
+
+</html>

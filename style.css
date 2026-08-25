@@ -1,0 +1,1123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f3f3;
+    color: #111;
+}
+
+
+/* ==================================================
+   HEADER
+================================================== */
+
+.header {
+    min-height: 75px;
+    background: #111;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7%;
+}
+
+
+/* LOGO DATA SAO */
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 150px;
+    height: auto;
+    display: block;
+}
+
+
+/* MENU */
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+nav a:hover {
+    color: #e63946;
+}
+
+
+/* ==================================================
+   HERO
+================================================== */
+
+.hero {
+    background: white;
+
+    text-align: center;
+
+    padding: 70px 20px 50px;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.categoria {
+    color: #e63946;
+
+    font-size: 13px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 12px;
+}
+
+.hero h1 {
+    font-size: 42px;
+
+    font-weight: 900;
+
+    letter-spacing: -1px;
+}
+
+.descripcion {
+    max-width: 650px;
+
+    margin: 15px auto 0;
+
+    color: #777;
+
+    line-height: 1.6;
+
+    font-size: 16px;
+}
+
+
+/* ==================================================
+   PARTIDO
+================================================== */
+
+.partido {
+    max-width: 900px;
+
+    margin: 35px auto;
+
+    background: #111;
+
+    color: white;
+
+    padding: 40px 35px;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+
+/* EQUIPOS */
+
+.equipo {
+    text-align: center;
+
+    min-width: 180px;
+}
+
+.equipo h2 {
+    font-size: 20px;
+
+    margin-top: 10px;
+}
+
+
+/* ==================================================
+   ESCUDOS
+================================================== */
+
+.escudo-img {
+    width: 85px;
+    height: 85px;
+
+    object-fit: contain;
+
+    display: block;
+
+    margin: 0 auto 12px;
+
+    filter:
+        drop-shadow(
+            0 4px 5px rgba(0, 0, 0, 0.25)
+        );
+}
+
+
+/* ==================================================
+   RESULTADO PARTIDO
+================================================== */
+
+.resultado {
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+}
+
+.resultado span {
+    font-size: 48px;
+    font-weight: 900;
+}
+
+.resultado div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 5px;
+}
+
+.resultado small {
+    color: #aaa;
+
+    font-size: 10px;
+    font-weight: bold;
+
+    letter-spacing: 1px;
+}
+
+.resultado strong {
+    color: #e63946;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+
+/* ==================================================
+   INFORMACIÓN DEL PARTIDO
+================================================== */
+
+.info-partido {
+    max-width: 900px;
+
+    margin: 30px auto;
+
+    padding: 35px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    box-shadow:
+        0 3px 15px rgba(0, 0, 0, 0.05);
+}
+
+.info-partido h2 {
+    font-size: 24px;
+
+    margin-bottom: 12px;
+}
+
+.info-partido p {
+    color: #666;
+
+    line-height: 1.6;
+
+    margin-bottom: 6px;
+}
+
+
+/* ==================================================
+   ESTADO IDA / VUELTA
+================================================== */
+
+.estado {
+    margin: 25px auto 0;
+
+    max-width: 550px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 15px;
+
+    background: #f4f4f4;
+
+    border-radius: 8px;
+}
+
+.estado span {
+    color: #e63946;
+
+    font-size: 11px;
+    font-weight: 900;
+
+    letter-spacing: 1px;
+}
+
+.estado strong {
+    font-size: 16px;
+}
+
+
+/* ==================================================
+   VOTACIÓN
+================================================== */
+
+.votacion {
+    max-width: 900px;
+
+    margin: 65px auto;
+
+    padding: 0 20px;
+}
+
+.titulo {
+    margin-bottom: 30px;
+}
+
+.titulo p {
+    color: #e63946;
+
+    font-weight: 900;
+
+    font-size: 13px;
+
+    letter-spacing: 1px;
+}
+
+.titulo h2 {
+    font-size: 30px;
+
+    margin: 7px 0;
+
+    letter-spacing: -0.5px;
+}
+
+.titulo span {
+    color: #777;
+
+    font-size: 15px;
+}
+
+
+/* ==================================================
+   LISTA DE JUGADORES
+================================================== */
+
+.jugadores {
+    display: grid;
+
+    gap: 15px;
+}
+
+
+/* TARJETA */
+
+.jugador {
+    background: white;
+
+    min-height: 105px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.06);
+
+    transition: 0.2s;
+}
+
+.jugador:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 20px rgba(0, 0, 0, 0.10);
+}
+
+
+/* ==================================================
+   FOTO DEL JUGADOR
+================================================== */
+
+.foto {
+    width: 75px;
+    height: 75px;
+
+    background: #ddd;
+
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+}
+
+.foto img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+/* ==================================================
+   DATOS DEL JUGADOR
+================================================== */
+
+.datos {
+    flex: 1;
+
+    padding-left: 20px;
+}
+
+.datos h3 {
+    font-size: 18px;
+
+    margin-bottom: 5px;
+}
+
+.datos p {
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* ==================================================
+   JUGADOR DESTACADO
+================================================== */
+
+.jugador.destacado {
+    border-left: 4px solid #e63946;
+}
+
+.dato-extra {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #e63946;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+
+/* ==================================================
+   BOTONES
+================================================== */
+
+button {
+    border: none;
+
+    background: #e63946;
+
+    color: white;
+
+    padding: 13px 25px;
+
+    border-radius: 6px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+button:hover:not(:disabled) {
+    background: #c92f3b;
+
+    transform: scale(1.03);
+}
+
+button:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+
+/* ==================================================
+   OTRO JUGADOR
+================================================== */
+
+.otro-jugador {
+    margin-top: 25px;
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.06);
+
+    text-align: center;
+}
+
+.otro-jugador h3 {
+    font-size: 19px;
+
+    margin-bottom: 7px;
+}
+
+.otro-jugador p {
+    color: #777;
+
+    font-size: 13px;
+
+    margin-bottom: 18px;
+}
+
+.otro-form {
+    display: flex;
+
+    max-width: 600px;
+
+    margin: auto;
+
+    gap: 10px;
+}
+
+.otro-form input {
+    flex: 1;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    padding: 13px 15px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.otro-form input:focus {
+    border-color: #e63946;
+}
+
+.otro-form input:disabled {
+    background: #eee;
+
+    cursor: not-allowed;
+}
+
+.otro-form button {
+    white-space: nowrap;
+}
+
+
+/* ==================================================
+   MENSAJE DATA SAO
+================================================== */
+
+.mensaje {
+    max-width: 900px;
+
+    margin: 80px auto;
+
+    background: #111;
+
+    color: white;
+
+    padding: 45px;
+
+    text-align: center;
+
+    border-radius: 12px;
+}
+
+.mensaje h2 {
+    margin-bottom: 12px;
+
+    font-size: 25px;
+}
+
+.mensaje p {
+    color: #bbb;
+
+    max-width: 650px;
+
+    margin: 7px auto;
+
+    line-height: 1.6;
+}
+
+
+/* ==================================================
+   RESULTADOS
+================================================== */
+
+.resultados-panel {
+    width: calc(100% - 40px);
+    max-width: 900px;
+
+    margin: 50px auto 80px;
+
+    padding: 35px;
+
+    background: #ffffff;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ENCABEZADO RESULTADOS */
+
+.resultados-encabezado {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.resultados-encabezado h2 {
+    margin-top: 6px;
+
+    font-size: 27px;
+    font-weight: 900;
+}
+
+
+/* TOTAL VOTOS */
+
+.total-votos {
+    min-width: 105px;
+
+    padding: 14px 20px;
+
+    background: #111;
+
+    color: white;
+
+    border-radius: 10px;
+
+    text-align: center;
+}
+
+.total-votos span {
+    display: block;
+
+    font-size: 30px;
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+.total-votos small {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #aaa;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+/* LISTA RESULTADOS */
+
+.lista-resultados {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+
+/* FILA DE RESULTADO */
+
+.resultado-jugador {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 17px;
+
+    padding: 18px;
+
+    background: #f6f6f6;
+
+    border-radius: 10px;
+
+    border: 1px solid #eeeeee;
+}
+
+
+/* POSICIÓN */
+
+.resultado-posicion {
+    width: 44px;
+    height: 44px;
+
+    flex: 0 0 44px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #111;
+
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 18px;
+    font-weight: 900;
+}
+
+
+/* INFORMACIÓN */
+
+.resultado-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.resultado-superior {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 11px;
+}
+
+.resultado-superior h3 {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.resultado-superior p {
+    margin: 3px 0 0;
+
+    color: #777;
+
+    font-size: 12px;
+}
+
+
+/* NÚMEROS */
+
+.resultado-numeros {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    flex-shrink: 0;
+}
+
+.resultado-numeros strong {
+    font-size: 19px;
+    font-weight: 900;
+}
+
+.resultado-numeros strong::after {
+    content: " votos";
+
+    color: #777;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.resultado-numeros span {
+    min-width: 48px;
+
+    color: #e63946;
+
+    font-size: 15px;
+    font-weight: 900;
+
+    text-align: right;
+}
+
+
+/* BARRA */
+
+.barra {
+    width: 100%;
+    height: 8px;
+
+    background: #ddd;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+}
+
+.barra-progreso {
+    height: 100%;
+
+    background: #e63946;
+
+    border-radius: 20px;
+
+    transition: width 0.5s ease;
+}
+
+
+/* CARGANDO */
+
+.cargando {
+    padding: 35px;
+
+    color: #777;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+
+/* ==================================================
+   FOOTER
+================================================== */
+
+footer {
+    background: #111;
+
+    color: white;
+
+    padding: 45px 20px;
+
+    text-align: center;
+}
+
+footer .logo {
+    justify-content: center;
+}
+
+footer p {
+    margin-top: 10px;
+
+    color: #aaa;
+}
+
+.disclaimer {
+    font-size: 11px;
+
+    max-width: 600px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ==================================================
+   RESPONSIVE CELULAR
+================================================== */
+
+@media (max-width: 700px) {
+
+    /* HEADER */
+
+    .header {
+        height: auto;
+
+        padding: 20px;
+
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+    .logo img {
+        width: 130px;
+    }
+
+    nav {
+        gap: 15px;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+    }
+
+
+    /* HERO */
+
+    .hero {
+        padding: 50px 20px 40px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .descripcion {
+        font-size: 14px;
+    }
+
+
+    /* PARTIDO */
+
+    .partido {
+        margin: 20px;
+
+        padding: 30px 10px;
+
+        gap: 5px;
+    }
+
+    .equipo {
+        min-width: 90px;
+    }
+
+    .equipo h2 {
+        font-size: 14px;
+    }
+
+    .escudo-img {
+        width: 65px;
+        height: 65px;
+    }
+
+    .resultado {
+        gap: 8px;
+    }
+
+    .resultado span {
+        font-size: 32px;
+    }
+
+
+    /* INFORMACIÓN */
+
+    .info-partido {
+        margin: 20px;
+
+        padding: 25px 15px;
+    }
+
+    .info-partido h2 {
+        font-size: 20px;
+    }
+
+    .estado {
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+
+    /* VOTACIÓN */
+
+    .votacion {
+        margin: 50px auto;
+    }
+
+    .titulo h2 {
+        font-size: 24px;
+    }
+
+
+    /* JUGADORES */
+
+    .jugador {
+        padding: 10px;
+    }
+
+    .foto {
+        width: 60px;
+        height: 60px;
+    }
+
+    .datos {
+        padding-left: 12px;
+    }
+
+    .datos h3 {
+        font-size: 15px;
+    }
+
+    .datos p {
+        font-size: 11px;
+    }
+
+    .dato-extra {
+        font-size: 9px;
+    }
+
+    .jugador button {
+        padding: 10px 12px;
+
+        font-size: 11px;
+    }
+
+
+    /* OTRO JUGADOR */
+
+    .otro-form {
+        flex-direction: column;
+    }
+
+    .otro-form input {
+        width: 100%;
+    }
+
+    .otro-form button {
+        width: 100%;
+    }
+
+
+    /* MENSAJE */
+
+    .mensaje {
+        margin: 60px 20px;
+
+        padding: 30px 20px;
+    }
+
+
+    /* RESULTADOS */
+
+    .resultados-panel {
+        width: calc(100% - 30px);
+
+        margin: 30px auto 60px;
+
+        padding: 20px 15px;
+    }
+
+    .resultados-encabezado {
+        gap: 12px;
+
+        align-items: center;
+    }
+
+    .resultados-encabezado h2 {
+        font-size: 20px;
+    }
+
+    .total-votos {
+        min-width: 80px;
+
+        padding: 11px;
+    }
+
+    .total-votos span {
+        font-size: 23px;
+    }
+
+    .resultado-jugador {
+        padding: 13px;
+
+        gap: 11px;
+    }
+
+    .resultado-posicion {
+        width: 36px;
+        height: 36px;
+
+        flex-basis: 36px;
+
+        font-size: 14px;
+    }
+
+    .resultado-superior h3 {
+        font-size: 14px;
+    }
+
+    .resultado-superior p {
+        font-size: 11px;
+    }
+
+    .resultado-numeros {
+        gap: 6px;
+    }
+
+    .resultado-numeros strong {
+        font-size: 15px;
+    }
+
+    .resultado-numeros strong::after {
+        display: none;
+    }
+
+    .resultado-numeros span {
+        min-width: auto;
+
+        font-size: 13px;
+    }
+
+
+    /* FOOTER */
+
+    footer .logo img {
+        width: 120px;
+    }
+
+}
