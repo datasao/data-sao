@@ -27,9 +27,6 @@ body {
     padding: 0 7%;
 }
 
-
-/* LOGO DATA SAO */
-
 .logo {
     display: flex;
     align-items: center;
@@ -40,9 +37,6 @@ body {
     height: auto;
     display: block;
 }
-
-
-/* MENU */
 
 nav {
     display: flex;
@@ -121,7 +115,6 @@ nav a:hover {
     margin: 35px auto;
 
     background: #111;
-
     color: white;
 
     padding: 40px 35px;
@@ -133,28 +126,19 @@ nav a:hover {
     border-radius: 14px;
 
     box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.12);
+        0 8px 25px
+        rgba(0,0,0,0.12);
 }
-
-
-/* EQUIPOS */
 
 .equipo {
     text-align: center;
-
     min-width: 180px;
 }
 
 .equipo h2 {
     font-size: 20px;
-
     margin-top: 10px;
 }
-
-
-/* ==================================================
-   ESCUDOS
-================================================== */
 
 .escudo-img {
     width: 85px;
@@ -168,13 +152,14 @@ nav a:hover {
 
     filter:
         drop-shadow(
-            0 4px 5px rgba(0, 0, 0, 0.25)
+            0 4px 5px
+            rgba(0,0,0,0.25)
         );
 }
 
 
 /* ==================================================
-   RESULTADO PARTIDO
+   RESULTADO
 ================================================== */
 
 .resultado {
@@ -216,7 +201,7 @@ nav a:hover {
 
 
 /* ==================================================
-   INFORMACIÓN DEL PARTIDO
+   INFO
 ================================================== */
 
 .info-partido {
@@ -233,7 +218,8 @@ nav a:hover {
     text-align: center;
 
     box-shadow:
-        0 3px 15px rgba(0, 0, 0, 0.05);
+        0 3px 15px
+        rgba(0,0,0,0.05);
 }
 
 .info-partido h2 {
@@ -249,11 +235,6 @@ nav a:hover {
 
     margin-bottom: 6px;
 }
-
-
-/* ==================================================
-   ESTADO IDA / VUELTA
-================================================== */
 
 .estado {
     margin: 25px auto 0;
@@ -317,8 +298,6 @@ nav a:hover {
     font-size: 30px;
 
     margin: 7px 0;
-
-    letter-spacing: -0.5px;
 }
 
 .titulo span {
@@ -329,17 +308,13 @@ nav a:hover {
 
 
 /* ==================================================
-   LISTA DE JUGADORES
+   JUGADORES
 ================================================== */
 
 .jugadores {
     display: grid;
-
     gap: 15px;
 }
-
-
-/* TARJETA */
 
 .jugador {
     background: white;
@@ -354,22 +329,20 @@ nav a:hover {
     border-radius: 10px;
 
     box-shadow:
-        0 3px 12px rgba(0, 0, 0, 0.06);
+        0 3px 12px
+        rgba(0,0,0,0.06);
 
     transition: 0.2s;
 }
 
 .jugador:hover {
-    transform: translateY(-2px);
+    transform:
+        translateY(-2px);
 
     box-shadow:
-        0 7px 20px rgba(0, 0, 0, 0.10);
+        0 7px 20px
+        rgba(0,0,0,0.10);
 }
-
-
-/* ==================================================
-   FOTO DEL JUGADOR
-================================================== */
 
 .foto {
     width: 75px;
@@ -378,10 +351,6 @@ nav a:hover {
     background: #ddd;
 
     border-radius: 8px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     overflow: hidden;
 
@@ -393,14 +362,7 @@ nav a:hover {
     height: 100%;
 
     object-fit: cover;
-
-    display: block;
 }
-
-
-/* ==================================================
-   DATOS DEL JUGADOR
-================================================== */
 
 .datos {
     flex: 1;
@@ -420,13 +382,9 @@ nav a:hover {
     font-size: 13px;
 }
 
-
-/* ==================================================
-   JUGADOR DESTACADO
-================================================== */
-
 .jugador.destacado {
-    border-left: 4px solid #e63946;
+    border-left:
+        4px solid #e63946;
 }
 
 .dato-extra {
@@ -437,7 +395,6 @@ nav a:hover {
     color: #e63946;
 
     font-size: 11px;
-
     font-weight: bold;
 }
 
@@ -470,11 +427,9 @@ button:hover:not(:disabled) {
     transform: scale(1.03);
 }
 
-button:active:not(:disabled) {
-    transform: scale(0.97);
-}
-
 button:disabled {
+    opacity: 0.45;
+
     cursor: not-allowed;
 }
 
@@ -493,7 +448,8 @@ button:disabled {
     border-radius: 10px;
 
     box-shadow:
-        0 3px 12px rgba(0, 0, 0, 0.06);
+        0 3px 12px
+        rgba(0,0,0,0.06);
 
     text-align: center;
 }
@@ -525,7 +481,8 @@ button:disabled {
 .otro-form input {
     flex: 1;
 
-    border: 1px solid #ddd;
+    border:
+        1px solid #ddd;
 
     border-radius: 6px;
 
@@ -534,27 +491,15 @@ button:disabled {
     font-size: 14px;
 
     outline: none;
-
-    transition: 0.2s;
 }
 
 .otro-form input:focus {
     border-color: #e63946;
 }
 
-.otro-form input:disabled {
-    background: #eee;
-
-    cursor: not-allowed;
-}
-
-.otro-form button {
-    white-space: nowrap;
-}
-
 
 /* ==================================================
-   MENSAJE DATA SAO
+   MENSAJE
 ================================================== */
 
 .mensaje {
@@ -563,7 +508,6 @@ button:disabled {
     margin: 80px auto;
 
     background: #111;
-
     color: white;
 
     padding: 45px;
@@ -591,27 +535,198 @@ button:disabled {
 
 
 /* ==================================================
-   RESULTADOS
+   MODAL
 ================================================== */
 
-.resultados-panel {
-    width: calc(100% - 40px);
-    max-width: 900px;
+.modal-overlay {
+    position: fixed;
 
-    margin: 50px auto 80px;
+    inset: 0;
+
+    background:
+        rgba(0,0,0,0.72);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: 0.25s;
+
+    z-index: 9999;
+}
+
+.modal-overlay.activo {
+    opacity: 1;
+
+    visibility: visible;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 420px;
+
+    background: white;
+
+    padding: 40px 30px;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    box-shadow:
+        0 20px 70px
+        rgba(0,0,0,0.30);
+
+    transform:
+        translateY(20px);
+
+    transition: 0.25s;
+}
+
+.modal-overlay.activo
+.modal-box {
+    transform:
+        translateY(0);
+}
+
+.modal-icono {
+    width: 65px;
+    height: 65px;
+
+    margin:
+        0 auto 20px;
+
+    border-radius: 50%;
+
+    background: #e63946;
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.modal-box h2 {
+    font-size: 26px;
+
+    margin-bottom: 12px;
+}
+
+.modal-box > p:not(.categoria) {
+    color: #666;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+}
+
+
+/* ==================================================
+   LOGIN RESULTADOS
+================================================== */
+
+.login-resultados {
+    width:
+        calc(100% - 40px);
+
+    max-width: 430px;
+
+    margin:
+        50px auto 80px;
+
+    background: white;
 
     padding: 35px;
-
-    background: #ffffff;
 
     border-radius: 14px;
 
     box-shadow:
-        0 5px 25px rgba(0, 0, 0, 0.08);
+        0 5px 25px
+        rgba(0,0,0,0.08);
+
+    text-align: center;
+}
+
+.login-resultados h2 {
+    font-size: 25px;
+
+    margin-bottom: 8px;
+}
+
+.login-resultados p {
+    color: #777;
+
+    font-size: 13px;
+
+    margin-bottom: 20px;
+}
+
+.login-resultados input {
+    width: 100%;
+
+    padding: 14px;
+
+    margin-bottom: 12px;
+
+    border:
+        1px solid #ddd;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+.login-resultados input:focus {
+    border-color: #e63946;
+}
+
+.login-resultados button {
+    width: 100%;
+}
+
+.error-login {
+    margin-top: 15px !important;
+
+    color: #e63946 !important;
+
+    font-weight: bold;
 }
 
 
-/* ENCABEZADO RESULTADOS */
+/* ==================================================
+   RESULTADOS
+================================================== */
+
+.resultados-panel {
+    width:
+        calc(100% - 40px);
+
+    max-width: 900px;
+
+    margin:
+        50px auto 80px;
+
+    padding: 35px;
+
+    background: white;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 5px 25px
+        rgba(0,0,0,0.08);
+}
 
 .resultados-encabezado {
     display: flex;
@@ -622,20 +737,16 @@ button:disabled {
     gap: 20px;
 
     padding-bottom: 25px;
+
     margin-bottom: 25px;
 
-    border-bottom: 1px solid #e8e8e8;
+    border-bottom:
+        1px solid #e8e8e8;
 }
 
 .resultados-encabezado h2 {
-    margin-top: 6px;
-
     font-size: 27px;
-    font-weight: 900;
 }
-
-
-/* TOTAL VOTOS */
 
 .total-votos {
     min-width: 105px;
@@ -656,25 +767,13 @@ button:disabled {
 
     font-size: 30px;
     font-weight: 900;
-
-    line-height: 1;
 }
 
 .total-votos small {
-    display: block;
-
-    margin-top: 6px;
-
     color: #aaa;
 
     font-size: 10px;
-    font-weight: 800;
-
-    letter-spacing: 1px;
 }
-
-
-/* LISTA RESULTADOS */
 
 .lista-resultados {
     display: flex;
@@ -684,12 +783,7 @@ button:disabled {
     gap: 12px;
 }
 
-
-/* FILA DE RESULTADO */
-
 .resultado-jugador {
-    width: 100%;
-
     display: flex;
 
     align-items: center;
@@ -702,20 +796,18 @@ button:disabled {
 
     border-radius: 10px;
 
-    border: 1px solid #eeeeee;
+    border:
+        1px solid #eee;
 }
-
-
-/* POSICIÓN */
 
 .resultado-posicion {
     width: 44px;
     height: 44px;
 
-    flex: 0 0 44px;
+    flex:
+        0 0 44px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -729,18 +821,11 @@ button:disabled {
     font-weight: 900;
 }
 
-
-/* INFORMACIÓN */
-
 .resultado-info {
     flex: 1;
-
-    min-width: 0;
 }
 
 .resultado-superior {
-    width: 100%;
-
     display: flex;
 
     align-items: center;
@@ -752,22 +837,16 @@ button:disabled {
 }
 
 .resultado-superior h3 {
-    margin: 0;
-
     font-size: 17px;
-    font-weight: 800;
 }
 
 .resultado-superior p {
-    margin: 3px 0 0;
-
     color: #777;
+
+    margin-top: 3px;
 
     font-size: 12px;
 }
-
-
-/* NÚMEROS */
 
 .resultado-numeros {
     display: flex;
@@ -775,37 +854,18 @@ button:disabled {
     align-items: center;
 
     gap: 13px;
-
-    flex-shrink: 0;
 }
 
 .resultado-numeros strong {
     font-size: 19px;
-    font-weight: 900;
-}
-
-.resultado-numeros strong::after {
-    content: " votos";
-
-    color: #777;
-
-    font-size: 10px;
-    font-weight: 600;
 }
 
 .resultado-numeros span {
-    min-width: 48px;
-
     color: #e63946;
 
     font-size: 15px;
     font-weight: 900;
-
-    text-align: right;
 }
-
-
-/* BARRA */
 
 .barra {
     width: 100%;
@@ -824,12 +884,7 @@ button:disabled {
     background: #e63946;
 
     border-radius: 20px;
-
-    transition: width 0.5s ease;
 }
-
-
-/* CARGANDO */
 
 .cargando {
     padding: 35px;
@@ -837,8 +892,10 @@ button:disabled {
     color: #777;
 
     text-align: center;
+}
 
-    font-size: 14px;
+.oculto {
+    display: none !important;
 }
 
 
@@ -868,25 +925,17 @@ footer p {
 
 .disclaimer {
     font-size: 11px;
-
-    max-width: 600px;
-
-    margin-left: auto;
-    margin-right: auto;
 }
 
 
 /* ==================================================
-   RESPONSIVE CELULAR
+   CELULAR
 ================================================== */
 
-@media (max-width: 700px) {
-
-    /* HEADER */
+@media
+(max-width: 700px) {
 
     .header {
-        height: auto;
-
         padding: 20px;
 
         flex-direction: column;
@@ -898,36 +947,20 @@ footer p {
         width: 130px;
     }
 
-    nav {
-        gap: 15px;
-
-        flex-wrap: wrap;
-
-        justify-content: center;
-    }
-
-
-    /* HERO */
-
     .hero {
-        padding: 50px 20px 40px;
+        padding:
+            50px 20px 40px;
     }
 
     .hero h1 {
         font-size: 30px;
     }
 
-    .descripcion {
-        font-size: 14px;
-    }
-
-
-    /* PARTIDO */
-
     .partido {
         margin: 20px;
 
-        padding: 30px 10px;
+        padding:
+            30px 10px;
 
         gap: 5px;
     }
@@ -953,17 +986,11 @@ footer p {
         font-size: 32px;
     }
 
-
-    /* INFORMACIÓN */
-
     .info-partido {
         margin: 20px;
 
-        padding: 25px 15px;
-    }
-
-    .info-partido h2 {
-        font-size: 20px;
+        padding:
+            25px 15px;
     }
 
     .estado {
@@ -972,19 +999,9 @@ footer p {
         gap: 8px;
     }
 
-
-    /* VOTACIÓN */
-
-    .votacion {
-        margin: 50px auto;
-    }
-
     .titulo h2 {
         font-size: 24px;
     }
-
-
-    /* JUGADORES */
 
     .jugador {
         padding: 10px;
@@ -1012,50 +1029,47 @@ footer p {
     }
 
     .jugador button {
-        padding: 10px 12px;
+        padding:
+            10px 12px;
 
         font-size: 11px;
     }
-
-
-    /* OTRO JUGADOR */
 
     .otro-form {
         flex-direction: column;
     }
 
-    .otro-form input {
-        width: 100%;
-    }
-
+    .otro-form input,
     .otro-form button {
         width: 100%;
     }
 
-
-    /* MENSAJE */
-
     .mensaje {
-        margin: 60px 20px;
+        margin:
+            60px 20px;
 
-        padding: 30px 20px;
+        padding:
+            30px 20px;
     }
 
+    .modal-box {
+        padding:
+            35px 22px;
+    }
 
-    /* RESULTADOS */
+    .login-resultados {
+        width:
+            calc(100% - 30px);
+
+        padding: 25px;
+    }
 
     .resultados-panel {
-        width: calc(100% - 30px);
+        width:
+            calc(100% - 30px);
 
-        margin: 30px auto 60px;
-
-        padding: 20px 15px;
-    }
-
-    .resultados-encabezado {
-        gap: 12px;
-
-        align-items: center;
+        padding:
+            20px 15px;
     }
 
     .resultados-encabezado h2 {
@@ -1091,33 +1105,8 @@ footer p {
         font-size: 14px;
     }
 
-    .resultado-superior p {
-        font-size: 11px;
-    }
-
     .resultado-numeros {
         gap: 6px;
-    }
-
-    .resultado-numeros strong {
-        font-size: 15px;
-    }
-
-    .resultado-numeros strong::after {
-        display: none;
-    }
-
-    .resultado-numeros span {
-        min-width: auto;
-
-        font-size: 13px;
-    }
-
-
-    /* FOOTER */
-
-    footer .logo img {
-        width: 120px;
     }
 
 }
