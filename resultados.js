@@ -1,279 +1,115 @@
 /* =========================================================
    DATA SAO
-   RESULTADOS DE LA VOTACIÓN
+   PANEL PRIVADO
 ========================================================= */
 
-const PARTIDO_ID = "talleres-ferro-vuelta";
 
+async function ingresarResultados() {
 
-/* =========================================================
-   SUPABASE
-========================================================= */
-
-const SUPABASE_URL =
-    "https://irbigxtptkzgyogijaap.supabase.co";
-
-
-const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_Hi-3l1y5mv0A73uqevkzLA_pXyYDbGJ";
-
-
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
-
-
-/* =========================================================
-   CARGAR VOTOS
-========================================================= */
-
-async function cargarResultados() {
-
-    const contenedor =
+    const password =
         document.getElementById(
-            "listaResultados"
+            "passwordResultados"
+        ).value;
+
+
+    const errorElemento =
+        document.getElementById(
+            "errorLogin"
         );
 
 
-    const totalElemento =
-        document.getElementById(
-            "totalVotos"
-        );
+    errorElemento.textContent =
+        "";
+
+
+    if (!password) {
+
+        errorElemento.textContent =
+            "Ingresá la contraseña.";
+
+        return;
+
+    }
 
 
     try {
 
-        const { data, error } =
-            await supabaseClient
-                .from("votos")
-                .select(
-                    "jugador, equipo"
-                )
-                .eq(
-                    "partido_id",
-                    PARTIDO_ID
-                );
+        const respuesta =
+            await fetch(
+                "/api/resultados",
+                {
+                    method:
+                        "POST",
 
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-        if (error) {
-
-            console.error(
-                "Error cargando votos:",
-                error
+                    body:
+                        JSON.stringify({
+                            password:
+                                password
+                        })
+                }
             );
 
 
-            contenedor.innerHTML =
-                "<p>No se pudieron cargar los resultados.</p>";
+        if (
+            respuesta.status ===
+            401
+        ) {
 
-
-            return;
-
-        }
-
-
-        /* =============================================
-           TOTAL
-        ============================================= */
-
-        const total =
-            data.length;
-
-
-        totalElemento.textContent =
-            total;
-
-
-        /* =============================================
-           AGRUPAR POR JUGADOR
-        ============================================= */
-
-        const conteo = {};
-
-
-        data.forEach(
-            function (voto) {
-
-                const nombre =
-                    voto.jugador;
-
-
-                if (!conteo[nombre]) {
-
-                    conteo[nombre] = {
-                        votos: 0,
-                        equipo: voto.equipo
-                    };
-
-                }
-
-
-                conteo[nombre].votos++;
-
-            }
-        );
-
-
-        /* =============================================
-           CONVERTIR A ARRAY
-        ============================================= */
-
-        const resultados =
-            Object.entries(conteo)
-                .map(
-                    function ([nombre, datos]) {
-
-                        return {
-
-                            nombre:
-                                nombre,
-
-                            votos:
-                                datos.votos,
-
-                            equipo:
-                                datos.equipo
-
-                        };
-
-                    }
-                );
-
-
-        /* =============================================
-           ORDENAR DE MAYOR A MENOR
-        ============================================= */
-
-        resultados.sort(
-            function (a, b) {
-
-                return b.votos - a.votos;
-
-            }
-        );
-
-
-        /* =============================================
-           SI NO HAY VOTOS
-        ============================================= */
-
-        if (resultados.length === 0) {
-
-            contenedor.innerHTML =
-                "<p class='cargando'>Todavía no hay votos.</p>";
+            errorElemento.textContent =
+                "Contraseña incorrecta.";
 
             return;
 
         }
 
 
-        /* =============================================
-           MOSTRAR RESULTADOS
-        ============================================= */
+        if (!respuesta.ok) {
 
-        contenedor.innerHTML = "";
+            errorElemento.textContent =
+                "No se pudieron cargar los resultados.";
 
+            return;
 
-        resultados.forEach(
-            function (resultado, indice) {
-
-                const porcentaje =
-                    total > 0
-                        ? Math.round(
-                            (
-                                resultado.votos /
-                                total
-                            ) * 100
-                        )
-                        : 0;
+        }
 
 
-                const fila =
-                    document.createElement(
-                        "div"
-                    );
+        const data =
+            await respuesta.json();
 
 
-                fila.className =
-                    "resultado-jugador";
+        document.getElementById(
+            "loginResultados"
+        ).classList.add(
+            "oculto"
+        );
 
 
-                fila.innerHTML = `
-
-                    <div class="resultado-posicion">
-
-                        ${indice + 1}
-
-                    </div>
+        document.getElementById(
+            "panelResultados"
+        ).classList.remove(
+            "oculto"
+        );
 
 
-                    <div class="resultado-info">
-
-                        <div class="resultado-superior">
-
-                            <div>
-
-                                <h3>
-                                    ${resultado.nombre}
-                                </h3>
-
-                                <p>
-                                    ${resultado.equipo}
-                                </p>
-
-                            </div>
-
-
-                            <div class="resultado-numeros">
-
-                                <strong>
-                                    ${resultado.votos}
-                                </strong>
-
-                                <span>
-                                    ${porcentaje}%
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="barra">
-
-                            <div
-                                class="barra-progreso"
-                                style="width: ${porcentaje}%"
-                            >
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-
-                contenedor.appendChild(
-                    fila
-                );
-
-            }
+        mostrarResultados(
+            data.votos
         );
 
 
     } catch (error) {
 
         console.error(
-            "Error inesperado:",
             error
         );
 
 
-        contenedor.innerHTML =
-            "<p>No se pudieron cargar los resultados.</p>";
+        errorElemento.textContent =
+            "Error de conexión.";
 
     }
 
@@ -281,10 +117,239 @@ async function cargarResultados() {
 
 
 /* =========================================================
-   INICIAR
+   MOSTRAR RESULTADOS
+========================================================= */
+
+function mostrarResultados(
+    votos
+) {
+
+    const total =
+        votos.length;
+
+
+    document.getElementById(
+        "totalVotos"
+    ).textContent =
+        total;
+
+
+    const conteo = {};
+
+
+    votos.forEach(
+        voto => {
+
+            if (
+                !conteo[voto.jugador]
+            ) {
+
+                conteo[voto.jugador] = {
+
+                    votos:
+                        0,
+
+                    equipo:
+                        voto.equipo
+
+                };
+
+            }
+
+
+            conteo[
+                voto.jugador
+            ].votos++;
+
+        }
+    );
+
+
+    const resultados =
+        Object.entries(
+            conteo
+        )
+        .map(
+            ([nombre, datos]) => ({
+                nombre,
+                votos:
+                    datos.votos,
+                equipo:
+                    datos.equipo
+            })
+        )
+        .sort(
+            (a, b) =>
+                b.votos -
+                a.votos
+        );
+
+
+    const contenedor =
+        document.getElementById(
+            "listaResultados"
+        );
+
+
+    contenedor.innerHTML =
+        "";
+
+
+    if (
+        resultados.length ===
+        0
+    ) {
+
+        contenedor.innerHTML =
+            "<p class='cargando'>Todavía no hay votos.</p>";
+
+        return;
+
+    }
+
+
+    resultados.forEach(
+        (
+            resultado,
+            indice
+        ) => {
+
+
+            const porcentaje =
+                Math.round(
+                    (
+                        resultado.votos /
+                        total
+                    ) * 100
+                );
+
+
+            const fila =
+                document.createElement(
+                    "div"
+                );
+
+
+            fila.className =
+                "resultado-jugador";
+
+
+            fila.innerHTML = `
+
+                <div class="resultado-posicion">
+
+                    ${indice + 1}
+
+                </div>
+
+
+                <div class="resultado-info">
+
+                    <div class="resultado-superior">
+
+                        <div>
+
+                            <h3>
+                                ${escaparHTML(resultado.nombre)}
+                            </h3>
+
+                            <p>
+                                ${escaparHTML(resultado.equipo)}
+                            </p>
+
+                        </div>
+
+
+                        <div class="resultado-numeros">
+
+                            <strong>
+                                ${resultado.votos}
+                            </strong>
+
+                            <span>
+                                ${porcentaje}%
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="barra">
+
+                        <div
+                            class="barra-progreso"
+                            style="width:${porcentaje}%"
+                        >
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            contenedor.appendChild(
+                fila
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SEGURIDAD
+========================================================= */
+
+function escaparHTML(texto) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        texto;
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================================
+   ENTER
 ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    cargarResultados
+    function () {
+
+        const input =
+            document.getElementById(
+                "passwordResultados"
+            );
+
+
+        input.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key ===
+                    "Enter"
+                ) {
+
+                    ingresarResultados();
+
+                }
+
+            }
+        );
+
+    }
 );
