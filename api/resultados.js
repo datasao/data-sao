@@ -1,106 +1,97 @@
 export default async function handler(req, res) {
 
     if (req.method !== "POST") {
-
         return res.status(405).json({
             error: "Método no permitido"
         });
-
     }
 
-
-    const password =
-        req.body?.password;
-
+    const password = req.body?.password;
 
     if (!process.env.ADMIN_PASSWORD) {
-
         return res.status(500).json({
             error: "Falta ADMIN_PASSWORD"
         });
-
     }
 
-
     if (!process.env.SUPABASE_URL) {
-
         return res.status(500).json({
             error: "Falta SUPABASE_URL"
         });
-
     }
 
-
     if (!process.env.SUPABASE_SECRET_KEY) {
-
         return res.status(500).json({
             error: "Falta SUPABASE_SECRET_KEY"
         });
-
     }
 
-
-    if (
-        password !==
-        process.env.ADMIN_PASSWORD
-    ) {
-
+    if (password !== process.env.ADMIN_PASSWORD) {
         return res.status(401).json({
             error: "Contraseña incorrecta"
         });
-
     }
-
 
     try {
 
+        /* IMPORTANTE:
+           Ahora consultamos TODOS los votos,
+           sin filtrar por partido_id.
+        */
+
         const url =
-            `${process.env.SUPABASE_URL}/rest/v1/votos?select=id,partido_id,jugador,equipo,created_at&partido_id=eq.talleres-ferro-vuelta`;
+            `${process.env.SUPABASE_URL}/rest/v1/votos?select=id,partido_id,jugador,equipo,created_at&order=id.desc`;
 
 
-        const respuesta =
-            await fetch(
-                url,
-                {
-                    headers: {
+        const respuesta = await fetch(url, {
 
-                        apikey:
-                            process.env.SUPABASE_SECRET_KEY,
+            method: "GET",
 
-                        Authorization:
-                            `Bearer ${process.env.SUPABASE_SECRET_KEY}`
+            headers: {
 
-                    }
-                }
-            );
+                apikey:
+                    process.env.SUPABASE_SECRET_KEY,
+
+                Authorization:
+                    `Bearer ${process.env.SUPABASE_SECRET_KEY}`,
+
+                Accept:
+                    "application/json"
+            }
+
+        });
+
+
+        const texto = await respuesta.text();
+
+
+        console.log(
+            "SUPABASE STATUS:",
+            respuesta.status
+        );
+
+        console.log(
+            "SUPABASE RESPUESTA:",
+            texto
+        );
 
 
         if (!respuesta.ok) {
 
-            const errorTexto =
-                await respuesta.text();
-
-
-            console.error(
-                "Supabase:",
-                respuesta.status,
-                errorTexto
-            );
-
-
             return res.status(500).json({
                 error: "Supabase rechazó la consulta",
-                status: respuesta.status
+                status: respuesta.status,
+                detalle: texto
             });
 
         }
 
 
-        const votos =
-            await respuesta.json();
+        const votos = JSON.parse(texto);
 
 
         return res.status(200).json({
+            total: votos.length,
             votos: votos
         });
 
@@ -108,7 +99,7 @@ export default async function handler(req, res) {
     } catch (error) {
 
         console.error(
-            "Error API:",
+            "ERROR API:",
             error
         );
 
