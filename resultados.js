@@ -1,133 +1,427 @@
-export default async function handler(req, res) {
+/* =========================================================
+   DATA SAO
+   PANEL PRIVADO DE RESULTADOS
+========================================================= */
 
-    if (req.method !== "POST") {
-        return res.status(405).json({
-            error: "Método no permitido"
-        });
+
+/* =========================================================
+   INGRESAR
+========================================================= */
+
+async function ingresarResultados() {
+
+    const inputPassword =
+        document.getElementById("passwordResultados");
+
+    const errorElemento =
+        document.getElementById("errorLogin");
+
+    const password =
+        inputPassword.value.trim();
+
+
+    errorElemento.textContent = "";
+
+
+    if (!password) {
+
+        errorElemento.textContent =
+            "Ingresá la contraseña.";
+
+        return;
     }
 
-
-    /* =============================================
-       COMPROBAR VARIABLES DE VERCEL
-    ============================================= */
-
-    if (!process.env.ADMIN_PASSWORD) {
-        return res.status(500).json({
-            error: "ADMIN_PASSWORD no está configurada en Vercel"
-        });
-    }
-
-    if (!process.env.SUPABASE_URL) {
-        return res.status(500).json({
-            error: "SUPABASE_URL no está configurada en Vercel"
-        });
-    }
-
-    if (!process.env.SUPABASE_SECRET_KEY) {
-        return res.status(500).json({
-            error: "SUPABASE_SECRET_KEY no está configurada en Vercel"
-        });
-    }
-
-
-    /* =============================================
-       LEER CONTRASEÑA
-    ============================================= */
-
-    let body = req.body;
-
-    if (typeof body === "string") {
-        try {
-            body = JSON.parse(body);
-        } catch {
-            body = {};
-        }
-    }
-
-    const password = body?.password || "";
-
-
-    /* =============================================
-       VALIDAR CONTRASEÑA
-    ============================================= */
-
-    if (password !== process.env.ADMIN_PASSWORD) {
-        return res.status(401).json({
-            error: "Contraseña incorrecta"
-        });
-    }
-
-
-    /* =============================================
-       CONSULTAR SUPABASE
-    ============================================= */
 
     try {
 
-        const url =
-            process.env.SUPABASE_URL +
-            "/rest/v1/votos" +
-            "?select=id,partido_id,jugador,equipo,created_at" +
-            "&partido_id=eq.talleres-ferro-vuelta";
+        const respuesta = await fetch(
+            "/api/resultados",
+            {
+                method: "POST",
 
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
 
-        const respuesta = await fetch(url, {
-
-            method: "GET",
-
-            headers: {
-
-                apikey:
-                    process.env.SUPABASE_SECRET_KEY,
-
-                Authorization:
-                    "Bearer " +
-                    process.env.SUPABASE_SECRET_KEY,
-
-                Accept:
-                    "application/json"
+                body: JSON.stringify({
+                    password: password
+                })
             }
+        );
 
-        });
 
+        /* =============================================
+           LEER RESPUESTA
+        ============================================= */
 
         const texto =
             await respuesta.text();
 
 
-        if (!respuesta.ok) {
+        console.log(
+            "Respuesta API:",
+            respuesta.status,
+            texto
+        );
 
-            console.error(
-                "Error Supabase:",
-                respuesta.status,
-                texto
-            );
 
-            return res.status(500).json({
-                error: "Error consultando Supabase"
-            });
+        let datos;
+
+
+        try {
+
+            datos = JSON.parse(texto);
+
+        } catch {
+
+            datos = {
+                error:
+                    "Respuesta inválida del servidor"
+            };
 
         }
 
 
-        const votos =
-            JSON.parse(texto);
+        /* =============================================
+           CONTRASEÑA INCORRECTA
+        ============================================= */
+
+        if (respuesta.status === 401) {
+
+            errorElemento.textContent =
+                "Contraseña incorrecta.";
+
+            return;
+        }
 
 
-        return res.status(200).json({
-            total: votos.length,
-            votos: votos
-        });
+        /* =============================================
+           OTRO ERROR DEL SERVIDOR
+        ============================================= */
+
+        if (!respuesta.ok) {
+
+            errorElemento.textContent =
+                datos.error ||
+                "No se pudieron cargar los resultados.";
+
+            return;
+        }
+
+
+        /* =============================================
+           TODO CORRECTO
+        ============================================= */
+
+        document
+            .getElementById(
+                "loginResultados"
+            )
+            .classList.add(
+                "oculto"
+            );
+
+
+        document
+            .getElementById(
+                "panelResultados"
+            )
+            .classList.remove(
+                "oculto"
+            );
+
+
+        mostrarResultados(
+            datos.votos || []
+        );
 
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error de conexión:",
+            error
+        );
 
-        return res.status(500).json({
-            error: "Error interno"
-        });
+
+        errorElemento.textContent =
+            "No se pudo conectar con el servidor.";
 
     }
 
 }
+
+
+
+/* =========================================================
+   MOSTRAR RESULTADOS
+========================================================= */
+
+function mostrarResultados(votos) {
+
+    const total =
+        votos.length;
+
+
+    document.getElementById(
+        "totalVotos"
+    ).textContent =
+        total;
+
+
+    const conteo = {};
+
+
+    /* =====================================================
+       CONTAR VOTOS
+    ===================================================== */
+
+    votos.forEach(voto => {
+
+        const nombre =
+            voto.jugador;
+
+        const equipo =
+            voto.equipo || "Otro";
+
+
+        if (!conteo[nombre]) {
+
+            conteo[nombre] = {
+                votos: 0,
+                equipo: equipo
+            };
+
+        }
+
+
+        conteo[nombre].votos++;
+
+    });
+
+
+
+    /* =====================================================
+       CREAR RANKING
+    ===================================================== */
+
+    const resultados =
+        Object.entries(conteo)
+
+            .map(
+                ([nombre, datos]) => {
+
+                    return {
+
+                        nombre:
+                            nombre,
+
+                        votos:
+                            datos.votos,
+
+                        equipo:
+                            datos.equipo
+
+                    };
+
+                }
+            )
+
+            .sort(
+                (a, b) =>
+                    b.votos - a.votos
+            );
+
+
+
+    const contenedor =
+        document.getElementById(
+            "listaResultados"
+        );
+
+
+    contenedor.innerHTML = "";
+
+
+
+    /* =====================================================
+       SIN VOTOS
+    ===================================================== */
+
+    if (resultados.length === 0) {
+
+        contenedor.innerHTML = `
+            <p class="cargando">
+                Todavía no hay votos registrados.
+            </p>
+        `;
+
+        return;
+
+    }
+
+
+
+    /* =====================================================
+       MOSTRAR JUGADORES
+    ===================================================== */
+
+    resultados.forEach(
+        (resultado, indice) => {
+
+
+            const porcentaje =
+                total > 0
+                    ? Math.round(
+                        (
+                            resultado.votos /
+                            total
+                        ) * 100
+                    )
+                    : 0;
+
+
+            const fila =
+                document.createElement(
+                    "div"
+                );
+
+
+            fila.className =
+                "resultado-jugador";
+
+
+            fila.innerHTML = `
+
+                <div class="resultado-posicion">
+
+                    ${indice + 1}
+
+                </div>
+
+
+                <div class="resultado-info">
+
+
+                    <div class="resultado-superior">
+
+
+                        <div>
+
+                            <h3>
+                                ${escaparHTML(
+                                    resultado.nombre
+                                )}
+                            </h3>
+
+                            <p>
+                                ${escaparHTML(
+                                    resultado.equipo
+                                )}
+                            </p>
+
+                        </div>
+
+
+                        <div class="resultado-numeros">
+
+                            <strong>
+                                ${resultado.votos}
+                            </strong>
+
+                            <span>
+                                ${porcentaje}%
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="barra">
+
+                        <div
+                            class="barra-progreso"
+                            style="width: ${porcentaje}%"
+                        >
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+
+            contenedor.appendChild(
+                fila
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   SEGURIDAD PARA TEXTO
+========================================================= */
+
+function escaparHTML(texto) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        texto;
+
+
+    return div.innerHTML;
+
+}
+
+
+
+/* =========================================================
+   ENTER PARA INGRESAR
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const input =
+            document.getElementById(
+                "passwordResultados"
+            );
+
+
+        if (!input) {
+            return;
+        }
+
+
+        input.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key === "Enter") {
+
+                    event.preventDefault();
+
+                    ingresarResultados();
+
+                }
+
+            }
+        );
+
+    }
+);
