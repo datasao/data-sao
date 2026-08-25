@@ -34,36 +34,21 @@ export default async function handler(req, res) {
 
     try {
 
-        /* IMPORTANTE:
-           Ahora consultamos TODOS los votos,
-           sin filtrar por partido_id.
-        */
-
         const url =
-            `${process.env.SUPABASE_URL}/rest/v1/votos?select=id,partido_id,jugador,equipo,created_at&order=id.desc`;
-
+            `${process.env.SUPABASE_URL}/rest/v1/votos` +
+            `?select=id,partido_id,jugador,equipo,created_at` +
+            `&order=id.asc`;
 
         const respuesta = await fetch(url, {
-
             method: "GET",
 
             headers: {
-
-                apikey:
-                    process.env.SUPABASE_SECRET_KEY,
-
-                Authorization:
-                    `Bearer ${process.env.SUPABASE_SECRET_KEY}`,
-
-                Accept:
-                    "application/json"
+                apikey: process.env.SUPABASE_SECRET_KEY,
+                Accept: "application/json"
             }
-
         });
 
-
         const texto = await respuesta.text();
-
 
         console.log(
             "SUPABASE STATUS:",
@@ -75,7 +60,6 @@ export default async function handler(req, res) {
             texto
         );
 
-
         if (!respuesta.ok) {
 
             return res.status(500).json({
@@ -83,18 +67,14 @@ export default async function handler(req, res) {
                 status: respuesta.status,
                 detalle: texto
             });
-
         }
 
-
         const votos = JSON.parse(texto);
-
 
         return res.status(200).json({
             total: votos.length,
             votos: votos
         });
-
 
     } catch (error) {
 
@@ -103,11 +83,9 @@ export default async function handler(req, res) {
             error
         );
 
-
         return res.status(500).json({
-            error: "Error interno"
+            error: "Error interno",
+            detalle: String(error)
         });
-
     }
-
 }
