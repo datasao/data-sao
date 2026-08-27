@@ -1,0 +1,47 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    {
+      "src": "/votacion/?",
+      "dest": "/votacion/index.html"
+    },
+    {
+      "src": "/votacion/(.*)",
+      "dest": "/votacion/$1"
+    },
+    {
+      "src": "/imagenes/(.*)",
+      "dest": "/imagenes/$1"
+    },
+    {
+      "src": "/style.css",
+      "dest": "/style.css"
+    },
+    {
+      "src": "/script.js",
+      "dest": "/script.js"
+    },
+    {
+      "src": "/resultados",
+      "dest": "/resultados.html"
+    },
+    {
+      "src": "/resultados.html",
+      "dest": "/resultados.html"
+    },
+    {
+      "src": "/resultados.js",
+      "dest": "/resultados.js"
+    },
+    {
+      "src": "/api/resultados",
+      "dest": "/api/resultados"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "https://data-sao-futbol.fransilver.chatgpt.site/$1"
+    }
+  ]
+}
