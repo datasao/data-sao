@@ -8,6 +8,7 @@ export default async function handler(req, res) {
   if (!cronAuthorized && !adminAuthorized) return res.status(401).json({ error: "No autorizado" });
   try {
     const result = await runPipeline({ limit: Number(req.body?.limit || 1) });
+    console.info("news_pipeline_completed", result);
     return res.status(200).json({ ok: true, ...result });
   } catch (error) {
     console.error("news_pipeline_failed", { message: error.message });
