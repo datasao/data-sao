@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Pendientes | DataSao</title>
+  <link rel="stylesheet" href="/panel/panel.css">
+</head>
+<body>
+  <header><a href="/" class="brand">DATA <span>SAO</span></a><div><strong>Panel editorial</strong><small>Noticias pendientes</small></div></header>
+  <main>
+    <section id="login" class="login card">
+      <p class="eyebrow">Acceso editorial</p><h1>Revisá antes de publicar</h1>
+      <p class="muted">Las noticias generadas quedan siempre en pendiente. Desde acá podés ordenarlas, editarlas y agregar la imagen.</p>
+      <form id="loginForm"><label>Contraseña<input id="password" type="password" autocomplete="current-password" required></label><button>Entrar</button></form>
+      <p id="loginError" class="error" role="alert"></p>
+    </section>
+    <section id="workspace" hidden>
+      <div class="toolbar"><div><p class="eyebrow">Bandeja editorial</p><h1>Pendientes <span id="count">0</span></h1></div><button id="runPipeline" class="secondary">Buscar una noticia ahora</button></div>
+      <p id="status" class="status" aria-live="polite"></p>
+      <div id="empty" class="card empty" hidden>No hay noticias pendientes.</div>
+      <div id="newsList" class="list"></div>
+    </section>
+  </main>
+  <template id="newsTemplate">
+    <article class="card news-card">
+      <div class="summary"><div><span class="confidence"></span><span class="source-count"></span></div><button class="toggle secondary">Editar</button></div>
+      <h2 class="headline"></h2><p class="dek muted"></p>
+      <form class="editor" hidden>
+        <div class="two"><label>Título<input name="titulo" required></label><label>Orden<input name="orden" type="number" min="1"></label></div>
+        <label>Bajada<textarea name="bajada" rows="3"></textarea></label>
+        <label>Cuerpo<textarea name="cuerpo" rows="15"></textarea></label>
+        <div class="two"><label>Categoría<input name="categoria"></label><label>Etiquetas separadas por coma<input name="tags"></label></div>
+        <label>URL de la imagen<input name="imagen_url" type="url" placeholder="Agregala manualmente antes de publicar"></label>
+        <div class="sources"></div>
+        <button type="submit">Guardar cambios</button><span class="saved"></span>
+      </form>
+    </article>
+  </template>
+  <script src="/panel/panel.js" defer></script>
+</body>
+</html>
+
