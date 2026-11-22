@@ -34,7 +34,6 @@ const channels = [
 const guide = document.querySelector('.channels');
 const player = document.querySelector('#player');
 const current = document.querySelector('#current');
-const source = document.querySelector('#source');
 let activeIndex = -1;
 
 const buttons = channels.map(([name], index) => {
@@ -67,7 +66,6 @@ function tune(index) {
   current.textContent = name;
   player.title = name;
   player.src = url;
-  source.href = url;
 }
 
 document.querySelector('#previous').addEventListener('click', () => tune(activeIndex - 1));
