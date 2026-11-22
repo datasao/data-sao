@@ -10,7 +10,7 @@ main { max-width: 1120px; margin: auto; padding: 16px; }
 .channels, .controls, .links { display: flex; align-items: center; gap: 8px; }
 .channels { overflow-x: auto; padding: 4px 3px 12px; }
 .controls { justify-content: space-between; margin: 8px 0 12px; }
-.links { margin-top: 12px; flex-wrap: wrap; }
+.links { margin: 0 0 12px; flex-wrap: wrap; }
 h1 { font-size: clamp(1rem, 3.5vw, 1.5rem); text-align: center; margin: 0; }
 
 button, .channels a {
