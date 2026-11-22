@@ -78,3 +78,11 @@ document.addEventListener('click', event => {
     media.replaceWith(player);
   });
 }, true);
+
+const androidDownload = document.createElement('a');
+androidDownload.href = 'https://github.com/datasao/data-sao/releases/download/DataAndroid/data-sao-v2.apk';
+androidDownload.textContent = 'Descargar para Android';
+androidDownload.style.cssText = 'display:inline-block;background:#08734f;color:#fff;padding:10px 16px;border-radius:8px;font:600 14px system-ui,sans-serif;text-decoration:none;margin:12px 16px';
+const calendar = document.querySelector('main');
+if (calendar) calendar.before(androidDownload);
+else document.body.prepend(androidDownload);
