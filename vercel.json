@@ -63,7 +63,7 @@
     },
     {
       "src": "/datasaotv-calendario(?:\\.html)?",
-      "dest": "/tv/index.html"
+      "dest": "/tv"
     },
     {
       "src": "/tv/(player\\.css|player\\.js)",
