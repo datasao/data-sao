@@ -64,7 +64,7 @@ const feedChannels = {
   espnpremium: 'ESPN Premium', fox1ar: 'FOX Sports', fox2ar: 'FOX Sports 2',
   fox3ar: 'FOX Sports 3', dsports: 'DSports', dsports2: 'DSports 2',
   dsportsplus: 'DSports Plus', winplus: 'WIN Sports+', winsports: 'WIN Sports',
-  tntsports: 'TNT Sports', tntsportscl: 'TNT Sports Chile', tntsportschile: 'TNT Sports Chile',
+  tntsports: 'TNT Sports', tntar: 'TNT Sports', tntsportscl: 'TNT Sports Chile', tntsportschile: 'TNT Sports Chile',
   premiere1: 'Premiere 1 BR', premiere2: 'Premiere 2 BR', tudn_usa: 'TUDN USA',
   liga1max: 'Liga 1 Max'
 };
@@ -111,11 +111,17 @@ function refreshSchedule() {
   document.getElementById('date').textContent = new Date(today + 'T12:00:00').toLocaleDateString('es-AR', {
     weekday: 'long', day: 'numeric', month: 'long'
   });
-  sel = matches.findIndex(({ live, entry }) =>
+  const riverIndex = E.findIndex(entry =>
+    /\bRiver Plate\s+vs\.?\s+Lanús\b/i.test(entry[1]) && vigente(entry)
+  );
+  const riverMatch = E[riverIndex];
+  if (riverMatch) PARTIDO_PRINCIPAL = riverMatch[1];
+
+  sel = riverMatch ? riverIndex : matches.findIndex(({ live, entry }) =>
     live && vigente(entry) && entry[3].some(channel => LICENCIAS[channel]?.length)
   );
   if (sel < 0) sel = Math.max(0, E.findIndex(vigente));
-  canal = null;
+  canal = riverMatch?.[3].includes('TNT Sports') ? 'TNT Sports' : null;
   opcion = 0;
   todo();
 }
