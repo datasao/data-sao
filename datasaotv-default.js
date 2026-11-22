@@ -39,7 +39,19 @@ document.addEventListener('click', event => {
 
   // Let the calendar finish updating its selection before loading ESPN.
   requestAnimationFrame(() => {
-    const player = document.querySelector('#player iframe');
-    if (player && player.src !== espnUrl) player.src = espnUrl;
+    const media = document.querySelector('#player iframe, #player video');
+    if (!media) return;
+
+    if (media instanceof HTMLIFrameElement) {
+      if (media.src !== espnUrl) media.src = espnUrl;
+      return;
+    }
+
+    const player = document.createElement('iframe');
+    player.title = 'ESPN';
+    player.allow = 'autoplay; fullscreen; picture-in-picture';
+    player.allowFullscreen = true;
+    player.src = espnUrl;
+    media.replaceWith(player);
   });
 }, true);
