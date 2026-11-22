@@ -20,64 +20,77 @@ if (playerContainer) {
   restrictExternalPlayers();
 }
 
-let step = 0;
+// Keep the scheduled events and the continuous channel player independent.
+let directChannel = null;
+const renderEventList = lista;
+const clearFinishedEvents = limpiarSiTerminaron;
 
-function selectInitialBroadcast() {
-  const event = [...document.querySelectorAll('aside button')].find(button =>
-    /Fórmula 1: GP Las Vegas, carrera/i.test(button.textContent)
-  );
-  if (step === 0 && event) {
-    step = 1;
-    event.click();
+lista = function () {
+  const activeEvent = sel;
+  const selectedOption = opcion;
+  renderEventList();
+  if (directChannel) {
+    sel = activeEvent;
+    canal = directChannel;
+    opcion = selectedOption;
+  }
+};
+
+limpiarSiTerminaron = function () {
+  return !directChannel && clearFinishedEvents();
+};
+
+LICENCIAS.ESPN.unshift({
+  name: 'TVF90',
+  url: 'https://tvf90.com/online.php?stream=espn',
+  embed: true
+});
+
+const channelBar = document.getElementById('chips');
+channelBar.setAttribute('aria-label', 'Canales y programación');
+
+const extraChannels = [
+  'ESPN Premium', 'ESPN 2', 'ESPN 3', 'ESPN 4', 'ESPN 5', 'ESPN 6', 'ESPN 7',
+  'FOX Sports 2', 'FOX Sports 3', 'DSports 2', 'DSports Plus',
+  'TNT Sports Chile', 'WIN Sports', 'WIN Sports+', 'Liga 1 Max', 'Premiere 1 BR'
+];
+FILTROS.push(...extraChannels.filter(channel =>
+  !FILTROS.includes(channel) && LICENCIAS[channel]?.some(source => source.url)
+));
+chips();
+
+channelBar.addEventListener('click', event => {
+  const channel = event.target.closest('button[data-f]')?.dataset.f;
+  if (!channel) return;
+
+  event.stopPropagation();
+  directChannel = null;
+  fil = channel;
+  chips();
+  if (!LICENCIAS[channel]?.some(source => source.url)) {
+    todo();
+    return;
   }
 
-  const channels = document.querySelector('[aria-label="Canales de este partido"]');
-  const fox = [...(channels?.querySelectorAll('button') ?? [])].find(button =>
-    button.textContent.trim() === 'FOX Sports'
-  );
-  if (step === 1 && fox) {
-    step = 2;
-    if (fox.getAttribute('aria-pressed') !== 'true') fox.click();
-  }
-
-  const option = document.querySelector('.option-list button[data-o="3"]');
-  if (step === 2 && fox?.getAttribute('aria-pressed') === 'true' &&
-      option?.textContent.trim() === 'Opción 4') {
-    observer.disconnect();
-    option.click();
-  }
-}
-
-const observer = new MutationObserver(selectInitialBroadcast);
-observer.observe(document.body, { childList: true, subtree: true });
-setTimeout(() => observer.disconnect(), 5000);
-selectInitialBroadcast();
-
-const espnUrl = 'https://tvf90.com/online.php?stream=espn';
-
-document.addEventListener('click', event => {
-  const button = event.target.closest('#chips button, #chans button');
-  if (button?.textContent.trim() !== 'ESPN') return;
-
-  // Let the calendar finish updating its selection before loading ESPN.
-  requestAnimationFrame(() => {
-    const media = document.querySelector('#player iframe, #player video');
-    if (!media) return;
-
-    if (media instanceof HTMLIFrameElement) {
-      if (media.src !== espnUrl) media.src = espnUrl;
-      return;
-    }
-
-    const player = document.createElement('iframe');
-    player.title = 'ESPN';
-    player.allow = 'autoplay; fullscreen; picture-in-picture';
-    player.allowFullscreen = true;
-    player.setAttribute('sandbox', playerSandbox);
-    player.src = espnUrl;
-    media.replaceWith(player);
-  });
+  renderEventList();
+  directChannel = channel;
+  mostrarCanal(channel);
 }, true);
+
+document.getElementById('list').addEventListener('click', event => {
+  if (event.target.closest('button[data-i]')) directChannel = null;
+}, true);
+
+document.getElementById('options').addEventListener('click', event => {
+  const option = event.target.closest('button[data-o]');
+  if (!directChannel || !option) return;
+
+  opcion = Number(option.dataset.o);
+  for (const button of event.currentTarget.querySelectorAll('button[data-o]')) {
+    button.setAttribute('aria-pressed', String(button === option));
+  }
+  reproductor();
+});
 
 const androidDownload = document.createElement('a');
 androidDownload.href = 'https://github.com/datasao/data-sao/releases/download/DataAndroid/data-sao-v2.apk';
