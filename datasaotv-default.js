@@ -53,7 +53,7 @@ observer.observe(document.body, { childList: true, subtree: true });
 setTimeout(() => observer.disconnect(), 5000);
 selectInitialBroadcast();
 
-const espnUrl = 'https://streamtp99a.sbs/global2.php?stream=espn';
+const espnUrl = 'https://tvf90.com/online.php?stream=espn';
 
 document.addEventListener('click', event => {
   const button = event.target.closest('#chips button, #chans button');
