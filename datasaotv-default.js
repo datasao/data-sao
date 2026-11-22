@@ -1,3 +1,25 @@
+const playerSandbox = 'allow-scripts allow-same-origin allow-presentation';
+
+function restrictExternalPlayers() {
+  for (const frame of document.querySelectorAll('#player iframe[src]')) {
+    const url = new URL(frame.src);
+    if (url.protocol === 'https:' && url.origin !== location.origin &&
+        frame.getAttribute('sandbox') !== playerSandbox) {
+      frame.setAttribute('sandbox', playerSandbox);
+      // Sandbox restrictions take effect on navigation.
+      frame.src = url.href;
+    }
+  }
+}
+
+const playerContainer = document.getElementById('player');
+if (playerContainer) {
+  new MutationObserver(restrictExternalPlayers).observe(playerContainer, {
+    childList: true, subtree: true, attributes: true, attributeFilter: ['src']
+  });
+  restrictExternalPlayers();
+}
+
 let step = 0;
 
 function selectInitialBroadcast() {
@@ -51,6 +73,7 @@ document.addEventListener('click', event => {
     player.title = 'ESPN';
     player.allow = 'autoplay; fullscreen; picture-in-picture';
     player.allowFullscreen = true;
+    player.setAttribute('sandbox', playerSandbox);
     player.src = espnUrl;
     media.replaceWith(player);
   });
