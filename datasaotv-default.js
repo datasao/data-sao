@@ -30,3 +30,16 @@ const observer = new MutationObserver(selectInitialBroadcast);
 observer.observe(document.body, { childList: true, subtree: true });
 setTimeout(() => observer.disconnect(), 5000);
 selectInitialBroadcast();
+
+const espnUrl = 'https://streamtp99a.sbs/global2.php?stream=espn';
+
+document.addEventListener('click', event => {
+  const button = event.target.closest('#chips button, #chans button');
+  if (button?.textContent.trim() !== 'ESPN') return;
+
+  // Let the calendar finish updating its selection before loading ESPN.
+  requestAnimationFrame(() => {
+    const player = document.querySelector('#player iframe');
+    if (player && player.src !== espnUrl) player.src = espnUrl;
+  });
+}, true);
