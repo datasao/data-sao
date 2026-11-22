@@ -62,6 +62,14 @@
       "dest": "/api/noticias-pendientes"
     },
     {
+      "src": "/datasaotv-calendario.html",
+      "dest": "/tv/index.html"
+    },
+    {
+      "src": "/tv/(player\\.css|player\\.js)",
+      "dest": "/tv/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "https://data-sao-futbol.fransilver.chatgpt.site/$1"
     }
