@@ -121,7 +121,7 @@ function refreshSchedule() {
     live && vigente(entry) && entry[3].some(channel => LICENCIAS[channel]?.length)
   );
   if (sel < 0) sel = Math.max(0, E.findIndex(vigente));
-  canal = riverMatch?.[3].includes('TNT Sports') ? 'TNT Sports' : null;
+  canal = riverMatch?.[3].includes('ESPN') ? 'ESPN' : null;
   opcion = 0;
   todo();
 }
