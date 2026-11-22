@@ -62,7 +62,7 @@
       "dest": "/api/noticias-pendientes"
     },
     {
-      "src": "/datasaotv-calendario.html",
+      "src": "/datasaotv-calendario(?:\\.html)?",
       "dest": "/tv/index.html"
     },
     {
