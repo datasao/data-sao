@@ -10,6 +10,18 @@
   ],
   "routes": [
     {
+      "src": "/android/admin/?",
+      "dest": "/android/admin/index.html"
+    },
+    {
+      "src": "/android/admin/app.js",
+      "dest": "/android/admin/app.js"
+    },
+    {
+      "src": "/android/catalog/?",
+      "dest": "/api/android-catalog"
+    },
+    {
       "src": "/panel/?",
       "dest": "/panel/index.html"
     },
