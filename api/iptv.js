@@ -1,0 +1,14 @@
+module.exports=async(req,res)=>{
+if(!['GET','HEAD'].includes(req.method))return res.status(405).end();
+try{
+const mode=req.query.mode||'all';
+const rows=[];for(let offset=0;;offset+=500){
+const r=await fetch('https://lpkcmoudvhjbwfukdtdf.supabase.co/rest/v1/android_catalog?select=id,kind,title,category,cover_url,playback_url,sort_order&published=eq.true&order=sort_order.asc,id.asc&limit=500&offset='+offset,{headers:{apikey:'sb_publishable_emLytH99mLLaKr1Dg-lEZw_ujkpLclo'}});
+if(!r.ok)throw Error('catalog');const page=await r.json();rows.push(...page);if(page.length<500)break;}
+const clean=s=>String(s||'').replace(/[\r\n"\x00-\x1f]/g,' ').trim();
+const direct=s=>{try{const u=new URL(s);return ['http:','https:'].includes(u.protocol)&&!u.username&&!u.password&&!/[\r\n]/.test(s)&&/\.(m3u8|mp4|ts|mpd|webm|mp3|aac)$/i.test(u.pathname)}catch{return false}};
+const groups={tv:'Televisión',movie:'Películas',series:'Series',premiere:'Estrenos',music:'Música'};
+const out=['#EXTM3U'];const seen=new Set();
+for(const x of rows){if(mode==='tv'&&x.kind!=='tv'||mode==='vod'&&!['movie','series','premiere'].includes(x.kind)||!direct(x.playback_url)||seen.has(x.playback_url))continue;seen.add(x.playback_url);out.push('#EXTINF:'+(x.kind==='tv'?-1:0)+' tvg-id="'+clean(x.id)+'" tvg-logo="'+clean(x.cover_url)+'" group-title="'+clean(groups[x.kind]+(x.category?' - '+x.category:''))+'",'+clean(x.title),x.playback_url);}
+res.setHeader('Content-Type','audio/x-mpegurl; charset=utf-8');res.setHeader('Cache-Control','no-store');return res.status(200).send(out.join('\n')+'\n');
+}catch(e){return res.status(502).send('Catalog unavailable');}};
