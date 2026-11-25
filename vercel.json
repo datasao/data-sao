@@ -10,6 +10,18 @@
   ],
   "routes": [
     {
+      "src": "/iptv\\.m3u",
+      "dest": "/api/iptv?mode=all"
+    },
+    {
+      "src": "/tv\\.m3u",
+      "dest": "/api/iptv?mode=tv"
+    },
+    {
+      "src": "/vod\\.m3u",
+      "dest": "/api/iptv?mode=vod"
+    },
+    {
       "src": "/android/admin/?",
       "dest": "/android/admin/index.html"
     },
